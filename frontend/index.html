@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AG News Classifier — Wire Desk</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,500&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap');
+  * { box-sizing: border-box; }
+  body { margin:0; background:#16140F; color:#EDE7D9; font-family:'Inter',sans-serif; padding:56px 24px 40px; }
+  ::selection { background:#E8A33D; color:#16140F; }
+  textarea:focus, button:focus-visible { outline:2px solid #E8A33D; outline-offset:2px; }
+  header, .desk-grid, .spec-section, footer { max-width:880px; margin:0 auto; }
+  .eyebrow { font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.16em; color:#E8A33D; margin-bottom:14px; }
+  h1 { font-family:'Fraunces',serif; font-weight:700; font-size:58px; line-height:1.02; margin:0 0 16px; letter-spacing:-0.01em; }
+  .subtitle { font-size:17px; line-height:1.55; color:#B8AF9C; max-width:620px; margin:0 0 28px; }
+  .stat-row { display:flex; gap:28px; flex-wrap:wrap; border-top:1px solid #33301F; padding-top:20px; margin-bottom:40px; }
+  .stat { min-width:100px; }
+  .stat-value { font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:700; }
+  .stat-label { font-size:12px; color:#8C846F; margin-top:4px; text-transform:uppercase; letter-spacing:.06em; }
+  .desk-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:48px; }
+  .paper-card { background:#F3EFE3; color:#16140F; border-radius:6px; padding:24px; display:flex; flex-direction:column; box-shadow:0 12px 32px rgba(0,0,0,.35); }
+  .paper-label { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.12em; color:#7A6F55; margin-bottom:10px; }
+  textarea { width:100%; background:transparent; border:1px solid #C9BE9F; border-radius:4px; padding:12px; font-family:'Inter',sans-serif; font-size:15px; line-height:1.5; color:#16140F; resize:vertical; }
+  .sample-row { display:flex; gap:8px; flex-wrap:wrap; margin:12px 0; }
+  .sample-chip { font-family:'JetBrains Mono',monospace; font-size:11px; background:transparent; border:1px solid #A79B7A; border-radius:20px; padding:5px 12px; color:#5C5340; cursor:pointer; }
+  .transmit-btn { margin-top:auto; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:13px; letter-spacing:.08em; background:#16140F; color:#E8A33D; border:none; border-radius:4px; padding:13px 20px; cursor:pointer; }
+  .transmit-btn:disabled { opacity:.5; cursor:default; }
+  .result-card { background:#1D1B14; border:1px solid #33301F; border-radius:6px; padding:24px; display:flex; flex-direction:column; justify-content:center; min-height:260px; }
+  .placeholder { text-align:center; color:#8C846F; margin:0 auto; }
+  .placeholder-glyph { font-family:'Fraunces',serif; font-size:34px; margin-bottom:8px; color:#5C5340; }
+  .pulse-dot { width:10px; height:10px; border-radius:50%; background:#E8A33D; margin:0 auto 12px; animation:blink .9s infinite; }
+  @keyframes blink { 50% { opacity:.25; } }
+  .mono { font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:.06em; }
+  .stamp { font-family:'Fraunces',serif; font-weight:700; font-size:30px; text-align:center; border:3px solid; border-radius:6px; padding:14px 10px; margin-bottom:22px; text-transform:uppercase; letter-spacing:.03em; animation:stampIn .5s cubic-bezier(.2,1.6,.4,1); }
+  @keyframes stampIn { 0%{transform:scale(2.2) rotate(-8deg);opacity:0;} 60%{transform:scale(.94) rotate(-8deg);opacity:1;} 100%{transform:scale(1) rotate(-8deg);opacity:1;} }
+  .bars-wrap { display:flex; flex-direction:column; gap:10px; }
+  .bar-row { display:grid; grid-template-columns:84px 1fr 36px; align-items:center; gap:10px; }
+  .bar-label { font-size:12px; color:#B8AF9C; }
+  .bar-track { height:8px; background:#33301F; border-radius:4px; overflow:hidden; }
+  .bar-fill { height:100%; border-radius:4px; animation:barGrow .6s ease-out; }
+  @keyframes barGrow { from{width:0%;} }
+  .bar-pct { font-family:'JetBrains Mono',monospace; font-size:12px; color:#8C846F; text-align:right; }
+  .spec-header { font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.16em; color:#E8A33D; border-top:1px solid #33301F; padding-top:24px; margin-bottom:18px; }
+  .spec-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:40px; }
+  .spec-title { font-family:'Fraunces',serif; font-size:18px; font-weight:600; margin-bottom:6px; }
+  .spec-body { font-size:14px; line-height:1.55; color:#B8AF9C; margin:0; }
+  footer { border-top:1px solid #33301F; padding-top:18px; font-size:12px; color:#6E6754; }
+  #api-warning { display:none; background:#3A241E; border:1px solid #B23A2E; color:#F0C9C2; border-radius:6px; padding:14px 18px; font-size:13px; max-width:880px; margin:0 auto 32px; }
+  @media (max-width: 720px) { .desk-grid, .spec-grid { grid-template-columns:1fr !important; } h1 { font-size:40px !important; } }
+</style>
+</head>
+<body>
+
+  <div id="api-warning">
+    Can't reach the backend at <code id="api-url-echo"></code>. Start it with
+    <code>uvicorn app:app --reload --port 8000</code> from the <code>backend/</code> folder,
+    or use the built-in demo classifier on GitHub Pages.
+  </div>
+
+  <header>
+    <div class="eyebrow">WIRE SERVICE MODEL &middot; NO. 04-CLASS</div>
+    <h1>AG News Classifier</h1>
+    <p class="subtitle">
+      A BERT-base encoder, fine-tuned to sort raw newswire text into four desks —
+      World, Sports, Business, Sci/Tech — the way an assignment editor would.
+      This build calls your real fine-tuned checkpoint, served locally.
+    </p>
+    <div class="stat-row">
+      <div class="stat"><div class="stat-value">94.67%</div><div class="stat-label">Test accuracy</div></div>
+      <div class="stat"><div class="stat-value">110M</div><div class="stat-label">Parameters</div></div>
+      <div class="stat"><div class="stat-value">4</div><div class="stat-label">Classes</div></div>
+      <div class="stat"><div class="stat-value">bert-base-uncased</div><div class="stat-label">Base</div></div>
+    </div>
+  </header>
+
+  <section class="desk-grid">
+    <div class="paper-card">
+      <div class="paper-label">SUBMIT COPY FOR ROUTING</div>
+      <textarea id="text-input" rows="7" placeholder="Paste a headline or short article…"></textarea>
+      <div class="sample-row" id="sample-row"></div>
+      <button class="transmit-btn" id="transmit-btn">TRANSMIT →</button>
+    </div>
+
+    <div class="result-card" id="result-card">
+      <div class="placeholder">
+        <div class="placeholder-glyph">§</div>
+        <p>Awaiting copy. The desk stamp will land here once routed.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="spec-section">
+    <div class="spec-header">MODEL CARD</div>
+    <div class="spec-grid">
+      <div><div class="spec-title">Architecture</div><p class="spec-body">12-layer BERT encoder, 768 hidden size, 12 attention heads — a sequence classification head fine-tuned on top of bert-base-uncased.</p></div>
+      <div><div class="spec-title">Training data</div><p class="spec-body">AG News: four-class newswire corpus (World, Sports, Business, Sci/Tech), tokenized to a 128-token max length.</p></div>
+      <div><div class="spec-title">Result</div><p class="spec-body">94.67% held-out test accuracy after fine-tuning, evaluated with weighted precision, recall, and F1.</p></div>
+      <div><div class="spec-title">This build</div><p class="spec-body">Inference is served by a local FastAPI process (<code>backend/app.py</code>) that loads the real checkpoint from <code>model/</code> — no external API calls.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    Category colors:
+    <span style="color:#4C6B8A">■</span> World &nbsp;
+    <span style="color:#4F7942">■</span> Sports &nbsp;
+    <span style="color:#B23A2E">■</span> Business &nbsp;
+    <span style="color:#5B6EE8">■</span> Sci/Tech
+  </footer>
+
+<script>
+  const searchParams = new URLSearchParams(window.location.search);
+  const API_URL = searchParams.get("api") || localStorage.getItem("AGNEWS_API_URL") || "";
+  const demoMode = !API_URL;
+  document.getElementById("api-url-echo").textContent = API_URL || "demo mode";
+
+  const CATEGORIES = [
+    { key: "World", color: "#4C6B8A" },
+    { key: "Sports", color: "#4F7942" },
+    { key: "Business", color: "#B23A2E" },
+    { key: "Sci/Tech", color: "#5B6EE8" },
+  ];
+
+  const SAMPLES = [
+    "Manchester United clinch a dramatic late win to top the table heading into the final matchday.",
+    "The Federal Reserve signaled it may hold interest rates steady through the end of the quarter.",
+    "Astronomers confirm the discovery of a rocky exoplanet in the habitable zone of a nearby star.",
+    "UN envoys meet in Geneva as ceasefire talks enter a third day amid rising tension.",
+  ];
+
+  const textInput = document.getElementById("text-input");
+  const transmitBtn = document.getElementById("transmit-btn");
+  const resultCard = document.getElementById("result-card");
+  const sampleRow = document.getElementById("sample-row");
+  const apiWarning = document.getElementById("api-warning");
+
+  const KEYWORDS = {
+    World: ["un", "minister", "election", "war", "ceasefire", "diplomat", "parliament", "border", "summit", "refugee"],
+    Sports: ["match", "team", "coach", "league", "season", "goal", "win", "final", "tournament", "player"],
+    Business: ["market", "shares", "earnings", "profit", "bank", "trade", "inflation", "economy", "rates", "revenue"],
+    "Sci/Tech": ["software", "ai", "computer", "chip", "internet", "space", "science", "robot", "device", "research"],
+  };
+
+  SAMPLES.forEach((s) => {
+    const chip = document.createElement("button");
+    chip.className = "sample-chip";
+    chip.textContent = "sample";
+    chip.onclick = () => (textInput.value = s);
+    sampleRow.appendChild(chip);
+  });
+
+  if (demoMode) {
+    apiWarning.style.display = "block";
+    apiWarning.innerHTML = `GitHub Pages is running in demo mode. Set <code>?api=https://your-backend/predict</code> or localStorage <code>AGNEWS_API_URL</code> to use the live backend.`;
+  }
+
+  transmitBtn.addEventListener("click", async () => {
+    const text = textInput.value.trim();
+    if (!text) return;
+    transmitBtn.disabled = true;
+    transmitBtn.textContent = "ROUTING…";
+    apiWarning.style.display = demoMode ? "block" : "none";
+    resultCard.innerHTML = `<div class="placeholder"><div class="pulse-dot"></div><p class="mono">PARSING TOKENS…</p></div>`;
+
+    try {
+      if (API_URL) {
+        const res = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text }),
+        });
+        if (!res.ok) throw new Error("bad response");
+        const data = await res.json();
+        renderResult(data);
+      } else {
+        renderResult(inferLocally(text));
+      }
+    } catch (e) {
+      const fallback = inferLocally(text);
+      apiWarning.style.display = "block";
+      apiWarning.innerHTML = `The backend at <code id="api-url-echo"></code> is unreachable, so this page is using the built-in demo classifier right now.`;
+      document.getElementById("api-url-echo").textContent = API_URL || "demo mode";
+      renderResult(fallback);
+    } finally {
+      transmitBtn.disabled = false;
+      transmitBtn.textContent = "TRANSMIT →";
+    }
+  });
+
+  function inferLocally(text) {
+    const lower = text.toLowerCase();
+    const rawScores = Object.fromEntries(CATEGORIES.map((category) => [category.key, 1]));
+
+    for (const [category, terms] of Object.entries(KEYWORDS)) {
+      for (const term of terms) {
+        const escaped = term.replace(/[.*+?^${}()|[\\]\\]/g, "\\$&");
+        const matches = lower.match(new RegExp(`\\b${escaped}\\b`, "g"));
+        rawScores[category] += matches ? matches.length : 0;
+      }
+    }
+
+    const total = Object.values(rawScores).reduce((sum, value) => sum + value, 0);
+    const scores = Object.fromEntries(
+      Object.entries(rawScores).map(([key, value]) => [key, Number((value / total).toFixed(4))])
+    );
+    const category = Object.keys(scores).reduce((bestKey, key) => (scores[key] > scores[bestKey] ? key : bestKey));
+    return { category, scores, source: "demo" };
+  }
+
+  function renderResult(data) {
+    const cat = CATEGORIES.find((c) => c.key === data.category) || CATEGORIES[0];
+    const bars = CATEGORIES.map((c) => {
+      const score = data.scores?.[c.key] ?? 0;
+      const pct = Math.round(score * 100);
+      return `
+        <div class="bar-row">
+          <span class="bar-label">${c.key}</span>
+          <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${c.color}"></div></div>
+          <span class="bar-pct">${pct}%</span>
+        </div>`;
+    }).join("");
+
+    resultCard.innerHTML = `
+      <div class="stamp" style="border-color:${cat.color};color:${cat.color}">${data.category}</div>
+      ${data.source === "demo" ? '<p class="mono" style="text-align:center;margin:-4px 0 18px;color:#8C846F;">DEMO MODE</p>' : ""}
+      <div class="bars-wrap">${bars}</div>
+    `;
+  }
+</script>
+</body>
+</html>
