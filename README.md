@@ -1,30 +1,142 @@
-# AG News Classifier — Wire Desk
+<<<<<<< HEAD
+# 🚀 ML Engineering Portfolio
 
-A BERT-base model fine-tuned on AG News (World / Sports / Business / Sci-Tech),
-served locally through a small API, with a standalone browser UI on top.
+Welcome to my **Machine Learning Engineering** portfolio. This repository documents
+my journey from machine learning fundamentals to building production-ready AI
+systems. It contains hands-on projects, experiments, and implementations covering
+classical machine learning, deep learning, natural language processing, large
+language models (LLMs), AI agents, Retrieval-Augmented Generation (RAG), and MLOps.
 
-## Folder structure
+My goal is to develop practical AI solutions while following software engineering
+best practices, including modular code, documentation, testing, and reproducible
+experiments.
 
-```
-agnews-classifier/
-├── model/              fine-tuned checkpoint (safetensors + tokenizer files)
-├── backend/             FastAPI server that loads the checkpoint and serves /predict
-├── frontend/            index.html — static UI, no build step, talks to the backend
-├── notebooks/           the training notebook
-├── data/                ag_news_dataset.csv used for fine-tuning
+---
+
+## 📚 Repository Structure
+
+```text
+ML-Engineering/
+│
+├── AI-Agents/
+├── Azure-AI/
+├── Computer-Vision/
+├── Deep-Learning/
+├── Intelligent-Troubleshooting-Agent/
+├── LLM-Fine-Tuning/
+├── Machine-Learning/
+├── MLOps/
+├── NLP/
+├── RAG/
+├── Time-Series/
 └── README.md
 ```
 
-Duplicate files from your original upload (`config_2.json`, `special_tokens_map_2.json`,
-`tokenizer_config_2.json`, and the second copy of the notebook) were byte-identical to
-the originals, so only one copy of each is kept here.
+Each project contains its own documentation, source code, datasets (when permitted),
+and implementation details.
 
-One fix worth noting: `model/config.json` originally had generic `LABEL_0..LABEL_3`
-names. I relabeled them to `World / Sports / Business / Sci-Tech` (id 0–3), based on
-the standard AG News ordering and cross-checked against `label=2` rows in your CSV,
-which are business articles — confirms the mapping.
+---
 
-## 1. Set up the backend
+## 🤖 Featured Projects
+
+### Intelligent Troubleshooting Agent
+
+An AI-powered troubleshooting assistant that combines semantic search with rule-based
+reasoning to diagnose technical issues and recommend solutions.
+
+**Key Features**
+
+* Semantic similarity search using Sentence Transformers
+* JSON-based knowledge base
+* Interactive troubleshooting workflow
+* Rule-based diagnostic engine
+* Simulated automated repairs
+* Easily extensible architecture
+
+**Technologies**
+
+* Python
+* Sentence Transformers
+* Hugging Face
+* JSON
+* Scikit-learn
+
+---
+
+### Large Language Model Projects
+
+Projects exploring modern LLM development, including:
+
+* Fine-tuning transformer models
+* Prompt engineering
+* Tokenization
+* Text embeddings
+* Retrieval-Augmented Generation (RAG)
+* AI agent development
+
+---
+
+### Machine Learning Projects
+
+Implementations of supervised and unsupervised learning algorithms including:
+
+* Linear Regression
+* Logistic Regression
+* Decision Trees
+* Random Forest
+* Gradient Boosting
+* XGBoost
+* Clustering
+* Principal Component Analysis (PCA)
+
+---
+
+### Deep Learning
+
+Projects using modern deep learning frameworks:
+
+* Neural Networks
+* Convolutional Neural Networks (CNNs)
+* Recurrent Neural Networks (RNNs)
+* Long Short-Term Memory (LSTM)
+* Transfer Learning
+
+---
+
+### Natural Language Processing
+
+Projects involving:
+
+* Text Classification
+* Sentiment Analysis
+* Document Embeddings
+* Named Entity Recognition
+* Question Answering
+
+---
+
+### Computer Vision
+
+Projects including:
+
+* Image Classification
+* Object Detection
+* Image Preprocessing
+* Transfer Learning
+
+---
+
+### Azure AI & Machine Learning
+
+---
+
+## AG News Classifier
+
+The current deployable project in this workspace is an AG News classifier called
+Wire Desk. It fine-tunes a BERT-base encoder to classify newswire text into four
+desks: World, Sports, Business, and Sci/Tech.
+
+## Local run
 
 ```bash
 cd backend
@@ -40,44 +152,231 @@ If you want both servers from one command, run:
 ./run.sh
 ```
 
-First run will take a minute while it loads the ~438MB checkpoint. Once you see
-`Model loaded on cpu/cuda`, it's ready. Test it:
-
-```bash
-curl -X POST http://localhost:8000/predict \
-  -H "Content-Type: application/json" \
-  -d '{"text": "The central bank raised interest rates by half a point."}'
-```
-
-## 2. Open the frontend
-
-No build step needed — just open `frontend/index.html` directly in a browser,
-or serve it so relative paths behave the same as a real deploy:
+The frontend can be opened directly from `frontend/index.html` or served with a
+simple static server:
 
 ```bash
 cd frontend
 python3 -m http.server 5500
-# then visit http://localhost:5500
 ```
 
-The page calls `http://localhost:8000/predict`. Keep the backend running in
-another terminal while you use it.
-
-## 3. Showcasing it (no local server required)
-
-For a portfolio link that works on GitHub Pages, the frontend now supports a
-demo classifier when no backend URL is configured. Publish the `frontend/`
-folder with GitHub Pages, and use the `?api=https://your-backend/predict`
-query string or `localStorage.AGNEWS_API_URL` if you later host the FastAPI
-service somewhere public.
-
-If you want the real checkpoint online as well, the model itself is too large
-for a normal GitHub push, so it should live in object storage or a model host
-such as Hugging Face Spaces, while GitHub Pages serves the UI.
+For GitHub Pages, the frontend also supports a demo mode when no backend URL is
+configured. Set `?api=https://your-backend/predict` or `localStorage.AGNEWS_API_URL`
+to point it at a live API.
 
 ## Notes
 
-- `backend/requirements.txt` pins `transformers==4.39.3` to match the version
-  the checkpoint was trained under (per `model/config.json`).
-- CORS is wide open (`allow_origins=["*"]`) for local development — tighten
-  this before deploying `backend/app.py` anywhere public.
+* `backend/requirements.txt` pins `transformers==4.39.3` to match the version the
+  checkpoint was trained under.
+* The local model artifacts are too large for a normal GitHub push, so they should
+  stay out of a standard repo clone unless you intentionally publish them elsewhere.
+* CORS is wide open (`allow_origins=["*"]`) for local development — tighten this
+  before deploying `backend/app.py` anywhere public.
+=======
+ # 🚀 ML Engineering Portfolio
+
+Welcome to my **Machine Learning Engineering** portfolio. This repository documents my journey from machine learning fundamentals to building production-ready AI systems. It contains hands-on projects, experiments, and implementations covering classical machine learning, deep learning, natural language processing, large language models (LLMs), AI agents, Retrieval-Augmented Generation (RAG), and MLOps.
+
+My goal is to develop practical AI solutions while following software engineering best practices, including modular code, documentation, testing, and reproducible experiments.
+
+---
+
+## 📚 Repository Structure
+
+```text
+ML-Engineering/
+│
+├── AI-Agents/
+├── Azure-AI/
+├── Computer-Vision/
+├── Deep-Learning/
+├── Intelligent-Troubleshooting-Agent/
+├── LLM-Fine-Tuning/
+├── Machine-Learning/
+├── MLOps/
+├── NLP/
+├── RAG/
+├── Time-Series/
+└── README.md
+```
+
+Each project contains its own documentation, source code, datasets (when permitted), and implementation details.
+
+---
+
+## 🤖 Featured Projects
+
+### Intelligent Troubleshooting Agent
+
+An AI-powered troubleshooting assistant that combines semantic search with rule-based reasoning to diagnose technical issues and recommend solutions.
+
+**Key Features**
+
+* Semantic similarity search using Sentence Transformers
+* JSON-based knowledge base
+* Interactive troubleshooting workflow
+* Rule-based diagnostic engine
+* Simulated automated repairs
+* Easily extensible architecture
+
+**Technologies**
+
+* Python
+* Sentence Transformers
+* Hugging Face
+* JSON
+* Scikit-learn
+
+---
+
+### Large Language Model Projects
+
+Projects exploring modern LLM development, including:
+
+* Fine-tuning transformer models
+* Prompt engineering
+* Tokenization
+* Text embeddings
+* Retrieval-Augmented Generation (RAG)
+* AI agent development
+
+---
+
+### Machine Learning Projects
+
+Implementations of supervised and unsupervised learning algorithms including:
+
+* Linear Regression
+* Logistic Regression
+* Decision Trees
+* Random Forest
+* Gradient Boosting
+* XGBoost
+* Clustering
+* Principal Component Analysis (PCA)
+
+---
+
+### Deep Learning
+
+Projects using modern deep learning frameworks:
+
+* Neural Networks
+* Convolutional Neural Networks (CNNs)
+* Recurrent Neural Networks (RNNs)
+* Long Short-Term Memory (LSTM)
+* Transfer Learning
+
+---
+
+### Natural Language Processing
+
+Projects involving:
+
+* Text Classification
+* Sentiment Analysis
+* Document Embeddings
+* Named Entity Recognition
+* Question Answering
+
+---
+
+### Computer Vision
+
+Projects including:
+
+* Image Classification
+* Object Detection
+* Image Preprocessing
+* Transfer Learning
+
+---
+
+### Azure AI & Machine Learning
+
+Cloud-based AI implementations using Microsoft Azure services, including:
+
+* Azure Machine Learning
+* Azure AI Services
+* Model deployment
+* Cloud-based inference
+* AI workflows
+
+---
+
+## 🛠 Tech Stack
+
+### Programming Languages
+
+* Python
+* SQL
+* R
+
+### Machine Learning
+
+* Scikit-learn
+* XGBoost
+* TensorFlow
+* Keras
+* PyTorch
+
+### NLP & LLMs
+
+* Hugging Face Transformers
+* Sentence Transformers
+* Tokenizers
+* LangChain
+* FAISS
+* ChromaDB
+
+### Data Analysis
+
+* Pandas
+* NumPy
+* Matplotlib
+* Plotly
+
+### Cloud & Tools
+
+* Microsoft Azure
+* Git
+* GitHub
+* Jupyter Notebook
+* VS Code
+
+---
+
+## 🎯 Current Learning Focus
+
+* AI Agents
+* Retrieval-Augmented Generation (RAG)
+* Large Language Models
+* MLOps
+* Model Deployment
+* Production Machine Learning Systems
+* Azure AI
+
+---
+
+## 📈 Goals
+
+This repository serves as a record of my growth as an ML Engineer. My objectives include:
+
+* Building production-quality AI applications
+* Applying software engineering best practices to machine learning
+* Exploring state-of-the-art AI technologies
+* Developing scalable ML systems
+* Creating projects that solve real-world problems
+
+---
+
+## 📬 Connect With Me
+
+**GitHub:** https://github.com/MthabisiPatrice
+
+**LinkedIn:** https://www.linkedin.com/in/mthabisimunyariri
+
+---
+
+⭐ Thank you for visiting my repository! Feedback, suggestions, and collaboration opportunities are always welcome.
+>>>>>>> origin/main

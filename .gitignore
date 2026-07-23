@@ -1,9 +1,23 @@
-.venv/
-backend/.venv/
+<<<<<<< HEAD
+.DS_Store
+.venv
+.venv-*
+.venv_old_backup
 __pycache__/
+backend/.venv/
 backend/__pycache__/
 *.pyc
-.DS_Store
+.ipynb_checkpoints/
 model/
 data/
 notebooks/*.ipynb_checkpoints/
+
+=======
+.DS_Store
+.venv
+.venv-*
+.venv_old_backup
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+>>>>>>> origin/main

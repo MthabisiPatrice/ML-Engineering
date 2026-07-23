@@ -1,0 +1,120 @@
+[
+    {
+        "issue": "slow internet",
+        "keywords": [
+            "slow internet",
+            "wifi slow",
+            "internet lag",
+            "connection slow"
+        ],
+        "category":"network",
+
+        "questions":[
+            "Have you restarted your router?",
+            "Are multiple devices experiencing the issue?",
+            "Is the signal strength good?"
+        ],
+
+        "solution":[
+            "Restart your router.",
+            "Move closer to the router.",
+            "Disconnect unused devices.",
+            "Run a speed test."
+        ]
+    },
+
+    {
+        "issue":"no internet connection",
+
+        "keywords":[
+            "no internet",
+            "wifi disconnected",
+            "cannot connect",
+            "offline"
+        ],
+
+        "category":"network",
+
+        "questions":[
+            "Are the router lights on?",
+            "Have you checked the cables?"
+        ],
+
+        "solution":[
+            "Restart your router.",
+            "Reconnect the network.",
+            "Reset network settings.",
+            "Contact your ISP if the issue continues."
+        ]
+    },
+
+    {
+        "issue":"computer running slowly",
+
+        "keywords":[
+            "computer slow",
+            "pc slow",
+            "laptop lagging"
+        ],
+
+        "category":"performance",
+
+        "questions":[
+            "Have you restarted your computer?",
+            "Is your storage almost full?"
+        ],
+
+        "solution":[
+            "Restart the computer.",
+            "Delete temporary files.",
+            "Close unnecessary programs.",
+            "Check Task Manager."
+        ]
+    },
+
+    {
+        "issue":"software crashing",
+
+        "keywords":[
+            "app crashing",
+            "software crashes",
+            "application closes"
+        ],
+
+        "category":"software",
+
+        "questions":[
+            "Did the problem start after an update?",
+            "Have you updated the application?"
+        ],
+
+        "solution":[
+            "Update the software.",
+            "Restart the computer.",
+            "Reinstall the application."
+        ]
+    },
+
+    {
+        "issue":"printer not working",
+
+        "keywords":[
+            "printer offline",
+            "printer won't print",
+            "cannot print"
+        ],
+
+        "category":"hardware",
+
+        "questions":[
+            "Is the printer powered on?",
+            "Is there paper loaded?"
+        ],
+
+        "solution":[
+            "Restart the printer.",
+            "Reconnect the printer.",
+            "Reinstall printer drivers."
+        ]
+    }
+]
